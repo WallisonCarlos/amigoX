@@ -13,9 +13,9 @@ class CreateSessaosTable extends Migration
      */
     public function up()
     {
-        Schema::create('sessoes', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('titulo');
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->bigIncrements('id_session');
+            $table->string('sessions');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateSessaosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sessoes');
+        Schema::dropIfExists('sessions');
     }
 }

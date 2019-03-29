@@ -13,10 +13,10 @@ class CreateProdutosUsuarioTable extends Migration
      */
     public function up()
     {
-        Schema::create('produtos_usuario', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('produto');
-            $table->bigInteger('usuario');
+        Schema::create('products_user', function (Blueprint $table) {
+            $table->bigIncrements('id_products_user');
+            $table->bigInteger('product');
+            $table->bigInteger('user');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateProdutosUsuarioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('produtos_usuario');
+        Schema::dropIfExists('products_user');
     }
 }

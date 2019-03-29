@@ -13,10 +13,10 @@ class CreateMensagensConversaTable extends Migration
      */
     public function up()
     {
-        Schema::create('mensagens_conversa', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('mensagem');
-            $table->bigInteger('conversa');
+        Schema::create('messages_conversation', function (Blueprint $table) {
+            $table->bigIncrements('id_message_conversation');
+            $table->bigInteger('message');
+            $table->bigInteger('conversation');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateMensagensConversaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mensagens_conversa');
+        Schema::dropIfExists('messages_conversation');
     }
 }

@@ -13,10 +13,10 @@ class CreateAmigosSecretosGrupoTable extends Migration
      */
     public function up()
     {
-        Schema::create('amigos_secretos_grupo', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('sessao');
-            $table->bigInteger('grupo');
+        Schema::create('secrets_friends_group', function (Blueprint $table) {
+            $table->bigIncrements('id_secret');
+            $table->bigInteger('session');
+            $table->bigInteger('group');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateAmigosSecretosGrupoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('amigos_secretos_grupo');
+        Schema::dropIfExists('secrets_friends_group');
     }
 }

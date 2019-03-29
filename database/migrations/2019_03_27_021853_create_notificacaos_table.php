@@ -13,11 +13,11 @@ class CreateNotificacaosTable extends Migration
      */
     public function up()
     {
-        Schema::create('notificacoes', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('conteudo');
-            $table->bigInteger('de');
-            $table->bigInteger('para');
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->bigIncrements('id_notify');
+            $table->string('content');
+            $table->bigInteger('from');
+            $table->bigInteger('to');
             $table->integer('timestamp');
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class CreateNotificacaosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notificacoes');
+        Schema::dropIfExists('notifications');
     }
 }

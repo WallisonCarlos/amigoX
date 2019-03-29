@@ -4,12 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Notificacao extends Model
+class Message extends Model
 {
     private $id;
     private $conteudo;
-    private $de;
-    private $para;
+    private $autor;
     private $timestamp;
     
     function getId() {
@@ -20,12 +19,8 @@ class Notificacao extends Model
         return $this->conteudo;
     }
 
-    function getDe() {
-        return $this->de;
-    }
-
-    function getPara() {
-        return $this->para;
+    function getAutor() {
+        return $this->autor;
     }
 
     function getTimestamp() {
@@ -40,17 +35,12 @@ class Notificacao extends Model
         $this->conteudo = $conteudo;
     }
 
-    function setDe($de) {
-        $this->de = $de;
-    }
-
-    function setPara($para) {
-        $this->para = $para;
+    function setAutor($autor) {
+        $this->autor = $autor;
     }
 
     function setTimestamp($timestamp) {
         $this->timestamp = $timestamp;
     }
-
-
+    
 }

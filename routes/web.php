@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/my-groups', 'AmigoX\GroupController@myGroups')->name('my-groups');
+Route::resource('groups', 'AmigoX\GroupController');
+Route::resource('requests', 'AmigoX\GroupController');

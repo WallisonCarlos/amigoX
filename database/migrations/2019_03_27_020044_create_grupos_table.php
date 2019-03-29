@@ -13,10 +13,10 @@ class CreateGruposTable extends Migration
      */
     public function up()
     {
-        Schema::create('grupos', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string("titulo");
-            $table->bigInteger('administrador');
+        Schema::create('groups', function (Blueprint $table) {
+            $table->bigIncrements('id_group');
+            $table->string("title");
+            $table->integer('administrator');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateGruposTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grupos');
+        Schema::dropIfExists('groups');
     }
 }

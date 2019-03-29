@@ -13,10 +13,9 @@ class CreateMensagemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mensagems', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('conteudo');
-            $table->bigInteger('autor');
+        Schema::create('messages', function (Blueprint $table) {
+            $table->string('content');
+            $table->bigInteger('author');
             $table->integer('timestamp');
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ class CreateMensagemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mensagems');
+        Schema::dropIfExists('messages');
     }
 }

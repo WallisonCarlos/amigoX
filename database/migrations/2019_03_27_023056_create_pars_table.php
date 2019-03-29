@@ -13,10 +13,10 @@ class CreateParsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pares', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('de');
-            $table->bigInteger('para');
+        Schema::create('pairs', function (Blueprint $table) {
+            $table->bigIncrements('id_pair');
+            $table->bigInteger('from');
+            $table->bigInteger('to');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateParsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pares');
+        Schema::dropIfExists('pairs');
     }
 }

@@ -13,11 +13,11 @@ class CreateMembrosGrupoTable extends Migration
      */
     public function up()
     {
-        Schema::create('membros_grupo', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('membro');
-            $table->bigInteger('grupo');
-            $table->timestamps();
+        Schema::create('members_group', function (Blueprint $table) {
+            $table->bigIncrements('id_member');
+            $table->bigInteger('member');
+            $table->bigInteger('group');
+            $table->boolean('accept')->default(false);
         });
     }
 
@@ -28,6 +28,6 @@ class CreateMembrosGrupoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('membros_grupo');
+        Schema::dropIfExists('members_group');
     }
 }

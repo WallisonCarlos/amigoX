@@ -13,10 +13,10 @@ class CreateParesSessaoTable extends Migration
      */
     public function up()
     {
-        Schema::create('pares_sessao', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('par');
-            $table->bigInteger('sessao');
+        Schema::create('pairs_session', function (Blueprint $table) {
+            $table->bigIncrements('id_pair');
+            $table->bigInteger('pair');
+            $table->bigInteger('session');
             $table->timestamps();
         });
     }

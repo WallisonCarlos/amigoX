@@ -1,12 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AmigoX;
 
-use App\Grupo;
+use App\Sessao;
 use Illuminate\Http\Request;
 
-class GrupoController extends Controller
+class SessionController extends Controller
 {
+    
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -41,10 +52,10 @@ class GrupoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Grupo  $grupo
+     * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function show(Grupo $grupo)
+    public function show(Sessao $sessao)
     {
         //
     }
@@ -52,10 +63,10 @@ class GrupoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Grupo  $grupo
+     * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grupo $grupo)
+    public function edit(Sessao $sessao)
     {
         //
     }
@@ -64,10 +75,10 @@ class GrupoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Grupo  $grupo
+     * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grupo $grupo)
+    public function update(Request $request, Sessao $sessao)
     {
         //
     }
@@ -75,10 +86,10 @@ class GrupoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Grupo  $grupo
+     * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grupo $grupo)
+    public function destroy(Sessao $sessao)
     {
         //
     }

@@ -13,10 +13,10 @@ class CreateParticipantesSessaoTable extends Migration
      */
     public function up()
     {
-        Schema::create('participantes_sessao', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('participante');
-            $table->bigInteger('sessao');
+        Schema::create('participants_session', function (Blueprint $table) {
+            $table->bigIncrements('id_participant');
+            $table->bigInteger('participant');
+            $table->bigInteger('session');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateParticipantesSessaoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('participantes_sessao');
+        Schema::dropIfExists('participants_session');
     }
 }

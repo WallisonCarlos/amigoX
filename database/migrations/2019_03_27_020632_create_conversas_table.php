@@ -13,10 +13,10 @@ class CreateConversasTable extends Migration
      */
     public function up()
     {
-        Schema::create('conversas', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('usuario');
-            $table->bigInteger('amigo');
+        Schema::create('conversations', function (Blueprint $table) {
+            $table->bigIncrements('id_conversation');
+            $table->bigInteger('user');
+            $table->bigInteger('friend');
             $table->integer('timestamp');
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateConversasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conversas');
+        Schema::dropIfExists('conversations');
     }
 }

@@ -1,12 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AmigoX;
 
-use App\Produto;
+use App\Conversa;
 use Illuminate\Http\Request;
 
-class ProdutoController extends Controller
+class ConversationController extends Controller
 {
+    
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -41,10 +52,10 @@ class ProdutoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Produto  $produto
+     * @param  \App\Conversa  $conversa
      * @return \Illuminate\Http\Response
      */
-    public function show(Produto $produto)
+    public function show(Conversa $conversa)
     {
         //
     }
@@ -52,10 +63,10 @@ class ProdutoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Produto  $produto
+     * @param  \App\Conversa  $conversa
      * @return \Illuminate\Http\Response
      */
-    public function edit(Produto $produto)
+    public function edit(Conversa $conversa)
     {
         //
     }
@@ -64,10 +75,10 @@ class ProdutoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Produto  $produto
+     * @param  \App\Conversa  $conversa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Produto $produto)
+    public function update(Request $request, Conversa $conversa)
     {
         //
     }
@@ -75,10 +86,10 @@ class ProdutoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Produto  $produto
+     * @param  \App\Conversa  $conversa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Produto $produto)
+    public function destroy(Conversa $conversa)
     {
         //
     }

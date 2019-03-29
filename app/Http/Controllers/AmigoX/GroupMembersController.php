@@ -1,12 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AmigoX;
 
-use App\Sessao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
-class SessaoController extends Controller
+class GroupMembersController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,8 @@ class SessaoController extends Controller
      */
     public function index()
     {
-        //
+        $requests = \App\Group::getRequests();
+        return view('amigox.requests', compact('requests'));
     }
 
     /**
@@ -24,7 +36,7 @@ class SessaoController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,16 +47,18 @@ class SessaoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+     
     }
 
-    /**
+
+        /**
      * Display the specified resource.
      *
-     * @param  \App\Sessao  $sessao
+     * @param  \App\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function show(Sessao $sessao)
+    public function show($id)
     {
         //
     }
@@ -52,10 +66,10 @@ class SessaoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Sessao  $sessao
+     * @param  \App\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sessao $sessao)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +78,10 @@ class SessaoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sessao  $sessao
+     * @param  \App\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sessao $sessao)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,11 +89,20 @@ class SessaoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Sessao  $sessao
+     * @param  \App\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sessao $sessao)
+    public function destroy($id)
     {
-        //
+        $msg = '';
+        $status = '';
+        if (\App\Group::removeRequest($id)) {
+            $msg = 'Solicitação recusada com sucesso!';
+            $status = 'success';
+        } else {
+            $status = 'error';
+            $msg = 'Problemas em recusar solicitação, tente novamente mais tarde!';
+        }
+        return redirect('requests.index')->with($status, $msg);
     }
 }
