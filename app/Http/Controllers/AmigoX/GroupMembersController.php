@@ -83,7 +83,16 @@ class GroupMembersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $msg = '';
+        $status = '';
+        if (\App\Group::accept($id)) {
+            $msg = 'Solicitação aceita com sucesso!';
+            $status = 'success';
+        } else {
+            $status = 'error';
+            $msg = 'Problemas em aceitar solicitação, tente novamente mais tarde!';
+        }
+        return redirect('/requests')->with($status, $msg);
     }
 
     /**
@@ -103,6 +112,6 @@ class GroupMembersController extends Controller
             $status = 'error';
             $msg = 'Problemas em recusar solicitação, tente novamente mais tarde!';
         }
-        return redirect('requests.index')->with($status, $msg);
+        return redirect('/requests')->with($status, $msg);
     }
 }

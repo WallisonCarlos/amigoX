@@ -45,4 +45,29 @@ class Group extends Model
     public static function removeRequest($id) {
         return DB::delete("delete from members_group where id_member={$id}");
     }
+    
+    public static function members($group) {
+        $result = DB::select('select * from users '
+                . 'INNER JOIN members_group ON users.id=members_group.member'
+                . ' WHERE members_group.group=? AND members_group.accept=?', array($group, true));
+        
+        return $result;
+    }
+    
+    public static function noMembers($group) {
+        $result = DB::select('select * from users '
+                . 'INNER JOIN members_group ON users.id!=members_group.member'
+                . ' WHERE members_group.group=? LIMIT 1', array($group));
+        
+        return $result;
+    }
+    
+    public static function get($group) {
+        return DB::select('select * from groups where id_group=?',array($group));
+    }
+    
+    public static function accept($id) {
+        $result = DB::update('UPDATE members_group SET accept = ? WHERE member = ? AND id_member = ?', array(true, Auth::user()->id, $id));
+        return $result;
+    }
 }

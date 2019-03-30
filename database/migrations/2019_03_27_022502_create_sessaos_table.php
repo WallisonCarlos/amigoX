@@ -15,7 +15,8 @@ class CreateSessaosTable extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->bigIncrements('id_session');
-            $table->string('sessions');
+            $table->string('session');
+            $table->bigInteger('administrator');
             $table->timestamps();
         });
     }

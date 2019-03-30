@@ -37,9 +37,6 @@
                         <li class="nav-item active">
                         <a class="nav-link" href="{{ url('/home') }}">Inicio <span class="sr-only">(atual)</span></a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                      </li>
                       @if (Route::has('requests.index'))
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('requests.index')}}">Convites</a>

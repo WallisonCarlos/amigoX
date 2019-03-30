@@ -67,7 +67,8 @@ class GroupController extends Controller
         $group->save();
         
         $members = $request->input('members', []);
-        //$members[] = Auth::user()->id;
+        $members[] = Auth::user()->id;
+        $members = array_unique($members);
         foreach ($members as $memberId) {
             if ($memberId == Auth::user()->id) {
                 \App\Group::addMember($group->id, $memberId, true);
@@ -99,9 +100,12 @@ class GroupController extends Controller
      * @param  \App\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function show(Grupo $grupo)
+    public function show($group)
     {
-        //
+        $members = \App\Group::members($group);
+        $group = Group::get($group);
+        $userAuth = Auth::user()->id;
+        return view('amigox.group', compact('group', 'members', 'userAuth'));
     }
 
     /**
@@ -110,9 +114,11 @@ class GroupController extends Controller
      * @param  \App\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grupo $grupo)
+    public function edit($group)
     {
-        //
+        $members = Group::noMembers($group);
+        $group = Group::get($group);
+        return view('amigox.edit-group', compact('group', 'members'));
     }
 
     /**
@@ -122,9 +128,34 @@ class GroupController extends Controller
      * @param  \App\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grupo $grupo)
+    public function update(Request $request, $group)
     {
-        //
+        
+        $validatedRequest = $request->validate([
+            'title' => 'required|max:45'
+        ]);
+        
+        $g = Group::get($group);
+        
+        $group = new Group();
+        $group->id_group = $g[0]->id_group;
+        $group->administrator = $g[0]->administrator;              
+        $group->title = $request->input('title');       
+        
+        $group->update();
+        
+        $members = $request->input('members', []);
+        //$members[] = Auth::user()->id;
+        foreach ($members as $memberId) {
+            if ($memberId == Auth::user()->id) {
+                \App\Group::addMember($group->id_group, $memberId, true);
+            } else {
+                \App\Group::addMember($group->id_group, $memberId);
+            }
+        }
+        
+        return redirect('groups/'.$group->id_group.'/edit')->with('success', 'Grupo atualizado com sucesso!');
+        
     }
 
     /**

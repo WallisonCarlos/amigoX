@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\AmigoX;
 
-use App\Sessao;
+use App\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class SessionController extends Controller
 {
@@ -35,7 +37,13 @@ class SessionController extends Controller
      */
     public function create()
     {
-        //
+        
+    }
+    
+    public function createSession($group)
+    {
+        $users = \App\Group::members($group);
+        return view('amigox.create-session', compact('users'));
     }
 
     /**
@@ -55,7 +63,7 @@ class SessionController extends Controller
      * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function show(Sessao $sessao)
+    public function show(Session $session)
     {
         //
     }
@@ -66,7 +74,7 @@ class SessionController extends Controller
      * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sessao $sessao)
+    public function edit(Session $session)
     {
         //
     }
@@ -78,7 +86,7 @@ class SessionController extends Controller
      * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sessao $sessao)
+    public function update(Request $request, Session $session)
     {
         //
     }
@@ -89,7 +97,7 @@ class SessionController extends Controller
      * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sessao $sessao)
+    public function destroy(Session $session)
     {
         //
     }

@@ -23,7 +23,7 @@
                       <tr>
                         <th>Grupo</th>
                         <th>Administrador</th>
-                        <th colspan="2">Ação</th>
+                        <th colspan="2">Ações</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -34,7 +34,7 @@
                         <tr>
                             <td>{{$group->title}}</td>
                             <td>{{$group->name}}</td>
-                            <td><a href="" class="btn btn-primary">Ver</a></td>
+                            <td><a href="{{route('groups.show', $group->id_group)}}" class="btn btn-primary">Ver</a></td>
                             <td>
                                 <form action="{{route('requests.destroy', $group->id_group)}}" method="post">
                                   @csrf
@@ -42,6 +42,7 @@
                                   <button class="btn btn-danger" type="submit">Sair</button>
                                 </form>
                             </td>
+                            
                         </tr>
                       @endforeach
                     </tbody>

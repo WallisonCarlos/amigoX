@@ -23,7 +23,7 @@
                       <tr>
                         <th>Grupo</th>
                         <th>Administrador</th>
-                        <th colspan="2">Ação</th>
+                        <th colspan="2">Ações</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -34,9 +34,16 @@
                         <tr>
                             <td>{{$request->title}}</td>
                             <td>{{$request->name}}</td>
-                            <td><a href="{{route('remove-request', $request->id_member)}}" class="btn btn-primary">Aceitar</a></td>
                             <td>
-                                <form action="{{route('remove-request', $request->id_member)}}" method="post">
+                                <form action="{{route('requests.update', $request->id_member)}}" method="post"> 
+                                    @method('PATCH')
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Aceitar</button>
+                                </form>
+                            </td>
+                            
+                            <td>
+                                <form action="{{route('requests.destroy', $request->id_member)}}" method="post">
                                   @csrf
                                   @method('DELETE')
                                   <button class="btn btn-danger" type="submit">Recusar</button>
