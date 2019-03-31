@@ -22,4 +22,5 @@ Route::get('/my-groups', 'AmigoX\GroupController@myGroups')->name('my-groups');
 Route::resource('groups', 'AmigoX\GroupController');
 Route::resource('requests', 'AmigoX\GroupMembersController');
 Route::get('/create-session/{group}', 'AmigoX\SessionController@createSession')->name('sessions.createSession');
+Route::get('/sessions/group/{group}', 'AmigoX\SessionController@sessionsGroup')->name('sessions.sessionsGroup');
 Route::resource('sessions', 'AmigoX\SessionController');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AmigoX;
 
 use App\Session;
+use App\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -43,7 +44,7 @@ class SessionController extends Controller
     public function createSession($group)
     {
         $users = \App\Group::members($group);
-        return view('amigox.create-session', compact('users'));
+        return view('amigox.create-session', compact('users', 'group'));
     }
 
     /**
@@ -54,18 +55,48 @@ class SessionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedRequest = $request->validate([
+            'session' => 'required|max:45'
+        ]);
+        
+        $session = new \App\Session();
+        $session->session = $request->get('session');
+        $session->administrator = Auth::user()->id;
+        $session->save();
+        
+        $members = $request->input('members', []);
+        $members[] = Auth::user()->id;
+        $members = array_unique($members);
+        foreach ($members as $memberId) {
+            \App\Session::addParticipant($session->id, $memberId);
+        }
+        
+        \App\Group::addSession($request->get('group'), $session->id);
+        
+        return redirect('sessions/group/'.$request->get('group'))->with('success', 'Sessão adicionada com sucesso!');
     }
 
+    public function sessionsGroup($group){
+        $sessions = \App\Group::sessions($group);
+        $group = Group::get($group);
+        $userAuth = Auth::user()->id;
+        return view('amigox.sessions-group', compact('group', 'sessions', 'userAuth'));
+    }
+
+
+    
     /**
      * Display the specified resource.
      *
      * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function show(Session $session)
+    public function show($session)
     {
-        //
+        $members = \App\Session::members($session);
+        $session = \App\Session::get($session);
+        $userAuth = Auth::user()->id;
+        return view('amigox.session', compact('session', 'members', 'userAuth'));
     }
 
     /**

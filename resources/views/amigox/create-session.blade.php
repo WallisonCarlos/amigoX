@@ -20,18 +20,19 @@
                     <form method="POST" action="{{route('sessions.store')}}">
                         @csrf
 
+                        <input type="hidden" name="group" value="{{$group}}">
                         <div class="form-group">
                             <label for="name" class="">{{ __('Título') }}</label>
-                                <input id="name" type="text" class="form-control {{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}" required autofocus>
+                                <input id="name" type="text" class="form-control {{ $errors->has('session') ? ' is-invalid' : '' }}" name="session" value="{{ old('session') }}" required autofocus>
                                 @if ($errors->has('title'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('title') }}</strong>
+                                        <strong>{{ $errors->first('session') }}</strong>
                                     </span>
                                 @endif
                         </div>
                         
                         <div class="form-group">
-                            <label for="exampleFormControlSelect2" class="">Selecione os Membros</label>
+                            <label for="exampleFormControlSelect2" class="">Selecione os Participantes</label>
                             <select name="members[]" multiple class="form-control" id="exampleFormControlSelect2">
                                 @foreach ($users as $user)
                                 <option value="{{$user->id}}">{{$user->name}}</option>

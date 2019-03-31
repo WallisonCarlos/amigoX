@@ -20,6 +20,13 @@ class Group extends Model
         ]);
     }
     
+    public static function addSession($group, $session) {
+        DB::table('secrets_friends_group')->insert([
+            'session' => $session,
+            'group' => $group,
+        ]);
+    }
+    
     public static function getMyGroups(){
         $result = DB::table('groups')
             ->join('members_group', 'groups.id_group', '=', 'members_group.group')
@@ -50,6 +57,14 @@ class Group extends Model
         $result = DB::select('select * from users '
                 . 'INNER JOIN members_group ON users.id=members_group.member'
                 . ' WHERE members_group.group=? AND members_group.accept=?', array($group, true));
+        
+        return $result;
+    }
+    
+    public static function sessions($group) {
+        $result = DB::select('select *, sessions.session as title from (sessions '
+                . 'INNER JOIN secrets_friends_group ON sessions.id_session=secrets_friends_group.session)'
+                . ' WHERE secrets_friends_group.group=?', array($group));
         
         return $result;
     }
