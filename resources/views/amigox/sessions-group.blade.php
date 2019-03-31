@@ -21,7 +21,7 @@
                      <center>
                      <h3>{{$group[0]->title}}</h3>
                      <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="" class="btn btn-secondary">Participantes</a>
+                        <a href="{{route('groups.show', $group[0]->id_group)}}" class="btn btn-secondary">Participantes</a>
                         <a href="{{route('sessions.createSession', $group[0]->id_group)}}" class="btn btn-secondary">Criar Sessão</a>
                         <a href="" class="btn btn-secondary">Ver Sessões</a>
                         @if ($group[0]->administrator == $userAuth)

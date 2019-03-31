@@ -62,6 +62,7 @@ class SessionController extends Controller
         $session = new \App\Session();
         $session->session = $request->get('session');
         $session->administrator = Auth::user()->id;
+        $session->drawn = false;
         $session->save();
         
         $members = $request->input('members', []);
@@ -93,13 +94,19 @@ class SessionController extends Controller
      */
     public function show($session)
     {
+        $pair = \App\Session::pair($session);
         $members = \App\Session::members($session);
         $session = \App\Session::get($session);
         $userAuth = Auth::user()->id;
-        return view('amigox.session', compact('session', 'members', 'userAuth'));
+        return view('amigox.session', compact('session', 'members', 'userAuth', 'pair'));
     }
 
-    /**
+    public function generatePairs($session) {
+        \App\Session::random($session);
+        return redirect('sessions/'.$session)->with('success', 'Sorteio realizado com sucesso!');
+    }
+
+        /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Sessao  $sessao

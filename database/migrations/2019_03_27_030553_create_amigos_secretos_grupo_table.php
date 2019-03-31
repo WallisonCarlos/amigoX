@@ -17,7 +17,6 @@ class CreateAmigosSecretosGrupoTable extends Migration
             $table->bigIncrements('id_secret');
             $table->bigInteger('session');
             $table->bigInteger('group');
-            $table->timestamps();
         });
     }
 

@@ -17,7 +17,6 @@ class CreateParesSessaoTable extends Migration
             $table->bigIncrements('id_pair');
             $table->bigInteger('pair');
             $table->bigInteger('session');
-            $table->timestamps();
         });
     }
 

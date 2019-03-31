@@ -17,6 +17,7 @@ class CreateSessaosTable extends Migration
             $table->bigIncrements('id_session');
             $table->string('session');
             $table->bigInteger('administrator');
+            $table->boolean('drawn');
             $table->timestamps();
         });
     }

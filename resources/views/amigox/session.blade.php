@@ -23,13 +23,22 @@
                      <div class="btn-group" role="group" aria-label="Basic example">
                         <a href="" class="btn btn-secondary">Participantes</a>
                         @if ($session[0]->administrator == $userAuth)
-                        <a href="{{route('groups.edit', $session[0]->id_session)}}" class="btn btn-secondary">Sortear</a>
+                        @if (!$session[0]->drawn)
+                        <a href="{{route('sessions.generatePairs', $session[0]->id_session)}}" class="btn btn-secondary">Sortear</a>
+                        @endif
                         <a href="{{route('groups.edit', $session[0]->id_session)}}" class="btn btn-secondary">Editar</a>
                         <button type="button" class="btn btn-secondary">Remover</button>
                         @endif
                       </div>
                      <h4>Participantes</h4>
                      </center>
+                     <p><b>Meu par:</b> 
+                     @if (!$session[0]->drawn)
+                        Ainda não foi sorteado.
+                     @else
+                       {{$pair[0]->name}}
+                     @endif
+                     </p>
                     <table class="table table-striped">
                     <thead>
                       <tr>
