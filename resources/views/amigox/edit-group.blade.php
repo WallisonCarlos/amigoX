@@ -8,6 +8,21 @@
                 <div class="card-header">{{ __('Editar Grupo') }}</div>
 
                 <div class="card-body">
+                    <center>
+                     <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{route('groups.show', $group[0]->id_group)}}" class="btn btn-secondary">Participantes</a>
+                        <a href="{{route('sessions.createSession', $group[0]->id_group)}}" class="btn btn-secondary">Criar Sessão</a>
+                        <a href="{{route('sessions.sessionsGroup', $group[0]->id_group)}}" class="btn btn-secondary">Ver Sessões</a>
+                        @if ($group[0]->administrator == Auth::user()->id)
+                        <a href="{{route('groups.edit', $group[0]->id_group)}}" class="btn btn-secondary">Editar</a>
+                        <form onsubmit="return confirm('Tem certeza que remover esse grupo?');" action="{{route('groups.destroy', $group[0]->id_group)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-secondary" type="submit">Remover</button>
+                          </form>
+                        @endif
+                      </div>
+                    </center>
                     @if (\Session::has('success'))
                       <div class="alert alert-success">
                         {{ \Session::get('success') }}

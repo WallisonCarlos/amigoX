@@ -56,9 +56,6 @@
                         <tr>
                             <td>{{$member->name}}</td>
                             <td>{{$member->email}}</td>
-                            @if ($member->participant != $userAuth)
-                            <td><a href="" class="btn btn-primary">Mensagem</a></td>
-                            @endif
                             <td>
                                 <form onsubmit="return confirm('Tem certeza que deseja remover esse membro dessa sessão?');" action="{{route('sessions.destroyParticipant', ['user' => $member->id_user, 'session' => $member->session])}}" method="post">
                                   @csrf

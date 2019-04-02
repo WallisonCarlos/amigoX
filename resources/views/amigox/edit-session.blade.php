@@ -8,6 +8,7 @@
                 <div class="card-header">{{ __('Editar Sessão') }}</div>
 
                 <div class="card-body">
+                    
                     @if (\Session::has('success'))
                       <div class="alert alert-success">
                         {{ \Session::get('success') }}

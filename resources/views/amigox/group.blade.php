@@ -49,9 +49,6 @@
                         <tr>
                             <td>{{$member->name}}</td>
                             <td>{{$member->email}}</td>
-                            @if ($member->member != $userAuth)
-                            <td><a href="" class="btn btn-primary">Mensagem</a></td>
-                            @endif
                             <td>
                                 <form onsubmit="return confirm('Tem certeza que deseja remover esse membro desse grupo?');"action="{{route('requests.destroy', $member->id_member)}}" method="post">
                                   @csrf

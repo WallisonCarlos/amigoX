@@ -61,15 +61,7 @@
                                 <a class="dropdown-item" href="{{route('my-groups')}}">Meus Grupos</a>
                             @endif
                         </div>
-                      </li><!--
-                      <li class="nav-item dropdown dropdown-notifications">
-                        <a href="#notifications-panel" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                          Nofificações (<span data-count="0" class="notif-count">0</span>)
-                        </a>
-
-                        <ul class="dropdown-menu">
-                        </ul>
-                    </li>-->
+                      </li>
                     </ul>
                     @endauth
                     <!-- Right Side Of Navbar -->

@@ -8,6 +8,7 @@
                 <div class="card-header">{{ __('Criar Sessão') }}</div>
 
                 <div class="card-body">
+                    
                      @if ($errors->any())
                         <div class="alert alert-danger">
                           <ul>
