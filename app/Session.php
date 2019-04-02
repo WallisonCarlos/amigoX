@@ -27,11 +27,39 @@ class Session extends Model
         return $result;
     }
     
-    public static function pair($session) {
+    public static function noMembers($group, $session) {
+        $result = DB::select('select *, users.id as id_user, members_group.id as id_member from (users '
+                . 'INNER JOIN members_group ON users.id=members_group.member)'
+                . ' WHERE members_group.group=? AND members_group.accept=? '
+                . 'AND NOT EXISTS (select * from participants_session where'
+                . ' participants_session.participant=users.id AND'
+                . ' participants_session.session=?)', array($group, true, $session));
+        
+        return $result;
+    }
+    
+    public static function getGroup($session) {
+        $result = DB::select('select *, groups.id as id_group from groups '
+                . 'INNER JOIN secrets_friends_group ON groups.id=secrets_friends_group.group'
+                . ' WHERE secrets_friends_group.session=?', array($session));
+        
+        return $result;
+    }
+
+        public static function pair($session) {
         $result = DB::select('select *, pairs.id as id_pair, pairs_session.id id_pairs from (users '
                 . 'INNER JOIN pairs ON users.id=pairs.to)'
                 . 'INNER JOIN pairs_session ON pairs_session.pair=pairs.id'
                 . ' WHERE pairs.from = ? AND pairs_session.session = ? LIMIT 1', array(Auth::user()->id, $session));
+        
+        return $result;
+    }
+    
+    public static function pairs($session) {
+        $result = DB::select('select *, pairs.id as id_pair, pairs_session.id id_pairs from (users '
+                . 'INNER JOIN pairs ON users.id=pairs.to)'
+                . 'INNER JOIN pairs_session ON pairs_session.pair=pairs.id'
+                . ' WHERE pairs_session.session = ?', array($session));
         
         return $result;
     }
@@ -52,7 +80,16 @@ class Session extends Model
         return DB::update("UPDATE sessions SET drawn = ? WHERE id = ?", array(true, $session));
     }
 
+    public static function deleteParticipants($session) {
+        return DB::delete("delete from participants_session where session={$session}");
+    }  
     
+    public static function deletePairs($session) {
+        foreach (self::pairs($session) as $pair) {
+            DB::delete("delete from pairs where pairs.id={$pair->id_pair}");
+        }
+        return DB::delete("delete from pairs_session where pairs_session.session={$session}");
+    } 
     
     public static function random($session) {
         
@@ -60,21 +97,25 @@ class Session extends Model
         $members2 = self::members($session);
         $size = count($members2);
         $drawn = array();
-        for ($i = 0;$i < $size;$i++) {
-            $rand = rand(0, $size-1);
-            while ($i == $rand OR in_array($rand, $drawn)) {
-               $rand = rand(0, $size-1); 
+        if ($size > 1) {
+            for ($i = 0;$i < $size;$i++) {
+                $rand = rand(0, $size-1);
+                while ($i == $rand OR in_array($rand, $drawn)) {
+                   $rand = rand(0, $size-1); 
+                }
+                $drawn[] = $rand;
+                $pair = new \App\Pair();
+                $pair->from = $members[$i]->id;
+                $pair->to = $members2[$rand]->id;
+                $pair->save();
+
+                self::addPair($session, $pair->id);
             }
-            $drawn[] = $rand;
-            $pair = new \App\Pair();
-            $pair->from = $members[$i]->id;
-            $pair->to = $members2[$rand]->id;
-            $pair->save();
-            
-            self::addPair($session, $pair->id);
+
+            return self::drawn($session);
+
+        } else {
+            return false;
         }
-        
-        return self::drawn($session);
-        
     }
 }

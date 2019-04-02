@@ -35,6 +35,7 @@
                             <td>{{$group->title}}</td>
                             <td>{{$group->name}}</td>
                             <td><a href="{{route('groups.show', $group->id_group)}}" class="btn btn-primary">Ver</a></td>
+                            @if ($group->administrator != $userAuth)
                             <td>
                                 <form action="{{route('requests.destroy', $group->id_group)}}" method="post">
                                   @csrf
@@ -42,6 +43,7 @@
                                   <button class="btn btn-danger" type="submit">Sair</button>
                                 </form>
                             </td>
+                            @endif
                             
                         </tr>
                       @endforeach

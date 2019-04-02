@@ -33,7 +33,8 @@ class GroupController extends Controller
     
     public function myGroups() {
         $groups = \App\Group::getMyGroups();
-        return view('amigox.my-groups', compact('groups'));
+        $userAuth = Auth::user()->id;
+        return view('amigox.my-groups', compact('groups', 'userAuth'));
     }
 
 
@@ -160,8 +161,14 @@ class GroupController extends Controller
      * @param  \App\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grupo $grupo)
+    public function destroy($group)
     {
-        //
+        Group::deleteMembers($group);
+        Group::deletePairs($group);
+        
+        $group = Group::find($group);
+        $group->delete();
+        
+        return redirect('my-groups')->with('success', 'Grupo removido com sucesso!');
     }
 }

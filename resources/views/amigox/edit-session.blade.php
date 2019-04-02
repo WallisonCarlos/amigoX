@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Editar Grupo') }}</div>
+                <div class="card-header">{{ __('Editar Sessão') }}</div>
 
                 <div class="card-body">
                     @if (\Session::has('success'))
@@ -22,24 +22,25 @@
                           </ul>
                         </div><br />
                       @endif
-                    <form method="POST" action="{{route('groups.update', $group[0]->id_group)}}">
+                    <form method="POST" action="{{route('sessions.update', $session->id)}}">
                         @method('PATCH')
                         @csrf
+                        <input type="hidden" name="group" value="{{$group}}">
                         <div class="form-group">
                             <label for="name" class="">{{ __('Título') }}</label>
-                                <input id="name" type="text" value="{{$group[0]->title}}" class="form-control {{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}" required autofocus>
+                                <input id="name" type="text" class="form-control {{ $errors->has('session') ? ' is-invalid' : '' }}" name="session" value="{{$session->session}}" required autofocus>
                                 @if ($errors->has('title'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('title') }}</strong>
+                                        <strong>{{ $errors->first('session') }}</strong>
                                     </span>
                                 @endif
                         </div>
                         
                         <div class="form-group">
-                            <label for="exampleFormControlSelect2" class="">Adicione mais Membros</label>
+                            <label for="exampleFormControlSelect2" class="">Selecione os Participantes</label>
                             <select name="members[]" multiple class="form-control" id="exampleFormControlSelect2">
-                                @foreach ($members as $member)
-                                <option value="{{$member->id}}">{{$member->name}}</option>
+                                @foreach ($users as $user)
+                                <option value="{{$user->id_user}}">{{$user->name}}</option>
                                 @endforeach
                             </select>
                         </div>

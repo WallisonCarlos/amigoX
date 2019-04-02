@@ -98,8 +98,12 @@ class SessionController extends Controller
         $members = \App\Session::members($session);
         $session = \App\Session::get($session);
         $userAuth = Auth::user()->id;
-        return view('amigox.session', compact('session', 'members', 'userAuth', 'pair'));
+        $group = \App\Session::getGroup($session[0]->id);
+        $group = $group[0]->id_group;
+        return view('amigox.session', compact('session', 'members', 'userAuth', 'pair', 'group'));
     }
+    
+    
 
     public function generatePairs($session) {
         \App\Session::random($session);
@@ -112,9 +116,18 @@ class SessionController extends Controller
      * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function edit(Session $session)
+    public function edit($session)
     {
-        //
+        $users = \App\Group::members($group);
+        $session = Session::find($session);
+        return view('amigox.create-session', compact('users', 'session'));
+    }
+    
+    public function editSession($session, $group)
+    {
+        $users = \App\Session::noMembers($group, $session);
+        $session = Session::find($session);
+        return view('amigox.edit-session', compact('users', 'session', 'group'));
     }
 
     /**
@@ -124,9 +137,25 @@ class SessionController extends Controller
      * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Session $session)
+    public function update(Request $request, $session)
     {
-        //
+        $validatedRequest = $request->validate([
+            'session' => 'required|max:45'
+        ]);
+        
+        $session = \App\Session::find($session);
+        $session->session = $request->get('session');
+        $session->save();
+        
+        $group = \App\Session::getGroup($session->id);
+        
+        $members = $request->input('members', []);
+        $members = array_unique($members);
+        foreach ($members as $memberId) {
+            \App\Session::addParticipant($session->id, $memberId);
+        }
+                
+        return redirect('edit-session/'.$session->id.'/'.$group[0]->id_group)->with('success', 'Sessão atualizada com sucesso!');
     }
 
     /**
@@ -135,8 +164,15 @@ class SessionController extends Controller
      * @param  \App\Sessao  $sessao
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Session $session)
+    public function destroy($session)
     {
-        //
+        Session::deleteParticipants($session);
+        Session::deletePairs($session);
+        
+        $session = Session::find($session);
+        
+        $session->delete();
+        
+        return redirect('my-groups')->with('success', 'Sessão removida com sucesso!');
     }
 }

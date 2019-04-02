@@ -26,7 +26,11 @@
                         <a href="{{route('sessions.sessionsGroup', $group[0]->id_group)}}" class="btn btn-secondary">Ver Sessões</a>
                         @if ($group[0]->administrator == $userAuth)
                         <a href="{{route('groups.edit', $group[0]->id_group)}}" class="btn btn-secondary">Editar</a>
-                        <button type="button" class="btn btn-secondary">Remover</button>
+                        <form action="{{route('groups.destroy', $group[0]->id_group)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-secondary" type="submit">Remover</button>
+                          </form>
                         @endif
                       </div>
                      <h4>Participantes</h4>

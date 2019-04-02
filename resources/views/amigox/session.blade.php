@@ -26,8 +26,12 @@
                         @if (!$session[0]->drawn)
                         <a href="{{route('sessions.generatePairs', $session[0]->id_session)}}" class="btn btn-secondary">Sortear</a>
                         @endif
-                        <a href="{{route('groups.edit', $session[0]->id_session)}}" class="btn btn-secondary">Editar</a>
-                        <button type="button" class="btn btn-secondary">Remover</button>
+                        <a href="{{route('sessions.editSession', ['session'=>$session[0]->id_session,'group'=>$group])}}" class="btn btn-secondary">Editar</a>
+                        <form action="{{route('sessions.destroy', $session[0]->id_session)}}" method="post">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button class="btn btn-secondary" type="submit">Remover</button>
+                                </form>
                         @endif
                       </div>
                      <h4>Participantes</h4>

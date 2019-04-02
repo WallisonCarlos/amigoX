@@ -50,6 +50,18 @@ class Group extends Model
         return DB::delete("delete from members_group where id={$id}");
     }
     
+    public static function deleteMembers($group) {
+        return DB::delete("delete from members_group where members_group.group=?", array($group));
+    }
+    
+    
+    public static function deletePairs($group) {
+        foreach (self::sessions($group) as $session) { 
+            DB::delete("delete from sessions where sessions.id={$session->id_session}");
+        }
+        return DB::delete("delete from secrets_friends_group where secrets_friends_group.group={$group}");
+    } 
+    
     public static function members($group) {
         $result = DB::select('select *, members_group.id as id_member from users '
                 . 'INNER JOIN members_group ON users.id=members_group.member'
@@ -74,7 +86,7 @@ class Group extends Model
     }
     
     public static function get($group) {
-        return DB::select('select *, id as id_group from groups where id=?',array($group));
+        return DB::select('select *, id as id_group from groups where id=?', array($group));
     }
     
     public static function accept($id) {
