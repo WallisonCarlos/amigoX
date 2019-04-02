@@ -29,7 +29,7 @@ class Group extends Model
     
     public static function getMyGroups(){
         $result = DB::select('select *, groups.id as id_group from (groups inner join members_group on groups.id=members_group.group)'
-                . 'inner join users on users.id=groups.administrator where members_group.member=?', array(Auth::user()->id));
+                . 'inner join users on users.id=groups.administrator where members_group.member=? AND members_group.accept=?', array(Auth::user()->id, true));
         return $result;
     }
     
@@ -48,6 +48,11 @@ class Group extends Model
     
     public static function removeRequest($id) {
         return DB::delete("delete from members_group where id={$id}");
+    }
+    
+    public static function removeRequestFromGroup($user, $group) {
+        return DB::table('members_group')->where('member', '=', $user)->where('group', '=', $group)->delete();
+        
     }
     
     public static function deleteMembers($group) {

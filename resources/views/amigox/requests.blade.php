@@ -43,7 +43,7 @@
                             </td>
                             
                             <td>
-                                <form action="{{route('requests.destroy', $request->id_member)}}" method="post">
+                                <form action="{{route('requests.destroy', $request->id_member)}}" method="post" onsubmit="return confirm('Tem certeza que deseja rejeitar fazer parte desse grupo?');">
                                   @csrf
                                   @method('DELETE')
                                   <button class="btn btn-danger" type="submit">Recusar</button>

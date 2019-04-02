@@ -175,4 +175,10 @@ class SessionController extends Controller
         
         return redirect('my-groups')->with('success', 'Sessão removida com sucesso!');
     }
+    
+    public function destroyParticipant($user, $session)
+    {
+        Session::deleteParticipant($user, $session);   
+        return redirect('/sessions/'.$session)->with('success', 'Participante removido com sucesso!');
+    }
 }

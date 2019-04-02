@@ -27,7 +27,7 @@
                         <a href="{{route('sessions.generatePairs', $session[0]->id_session)}}" class="btn btn-secondary">Sortear</a>
                         @endif
                         <a href="{{route('sessions.editSession', ['session'=>$session[0]->id_session,'group'=>$group])}}" class="btn btn-secondary">Editar</a>
-                        <form action="{{route('sessions.destroy', $session[0]->id_session)}}" method="post">
+                        <form onsubmit="return confirm('Tem certeza que deseja remover essa sessão?');" action="{{route('sessions.destroy', $session[0]->id_session)}}" method="post">
                                   @csrf
                                   @method('DELETE')
                                   <button class="btn btn-secondary" type="submit">Remover</button>
@@ -40,7 +40,7 @@
                      @if (!$session[0]->drawn)
                         Ainda não foi sorteado.
                      @else
-                       {{$pair[0]->name}}
+                       {{$pair[0]->name}}                       
                      @endif
                      </p>
                     <table class="table table-striped">
@@ -60,10 +60,10 @@
                             <td><a href="" class="btn btn-primary">Mensagem</a></td>
                             @endif
                             <td>
-                                <form action="{{route('requests.destroy', $member->session)}}" method="post">
+                                <form onsubmit="return confirm('Tem certeza que deseja remover esse membro dessa sessão?');" action="{{route('sessions.destroyParticipant', ['user' => $member->id_user, 'session' => $member->session])}}" method="post">
                                   @csrf
                                   @method('DELETE')
-                                  @if($session[0]->administrator == $userAuth and $member->participant != $userAuth)
+                                  @if($session[0]->administrator == $userAuth and $member->participant != $userAuth and !$session[0]->drawn)
                                   <button class="btn btn-danger" type="submit">Remover</button>
                                   @endif
                                 </form>

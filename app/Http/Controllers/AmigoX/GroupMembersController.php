@@ -114,4 +114,18 @@ class GroupMembersController extends Controller
         }
         return redirect('/requests')->with($status, $msg);
     }
+    
+    public function destroyFromGroup($id)
+    {
+        $msg = '';
+        $status = '';
+        if (\App\Group::removeRequestFromGroup(Auth::user()->id, $id)) {
+            $msg = 'Participação removida com sucesso!';
+            $status = 'success';
+        } else {
+            $status = 'error';
+            $msg = 'Problemas ao tentar sair do grupo!';
+        }
+        return redirect('/my-groups')->with($status, $msg);
+    }
 }

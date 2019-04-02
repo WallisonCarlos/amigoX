@@ -26,7 +26,7 @@
                         <a href="{{route('sessions.sessionsGroup', $group[0]->id_group)}}" class="btn btn-secondary">Ver Sessões</a>
                         @if ($group[0]->administrator == $userAuth)
                         <a href="{{route('groups.edit', $group[0]->id_group)}}" class="btn btn-secondary">Editar</a>
-                        <form action="{{route('groups.destroy', $group[0]->id_group)}}" method="post">
+                        <form onsubmit="return confirm('Tem certeza que remover esse grupo?');" action="{{route('groups.destroy', $group[0]->id_group)}}" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-secondary" type="submit">Remover</button>
@@ -53,7 +53,7 @@
                             <td><a href="" class="btn btn-primary">Mensagem</a></td>
                             @endif
                             <td>
-                                <form action="{{route('requests.destroy', $member->id_member)}}" method="post">
+                                <form onsubmit="return confirm('Tem certeza que deseja remover esse membro desse grupo?');"action="{{route('requests.destroy', $member->id_member)}}" method="post">
                                   @csrf
                                   @method('DELETE')
                                   @if($group[0]->administrator == $userAuth and $member->member != $userAuth)

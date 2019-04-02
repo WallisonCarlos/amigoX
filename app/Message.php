@@ -6,41 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    private $id;
-    private $conteudo;
-    private $autor;
-    private $timestamp;
     
-    function getId() {
-        return $this->id;
+    protected $fillable = ['body'];
+    
+    protected $appends = ['selfMessage'];
+    
+    
+    public function user() {
+       return $this->belongsTo(User::class);
     }
-
-    function getConteudo() {
-        return $this->conteudo;
+    
+    public function getSelfMessageAttribute() {
+        return $this->user_id === auth()->user()->id;
     }
-
-    function getAutor() {
-        return $this->autor;
-    }
-
-    function getTimestamp() {
-        return $this->timestamp;
-    }
-
-    function setId($id) {
-        $this->id = $id;
-    }
-
-    function setConteudo($conteudo) {
-        $this->conteudo = $conteudo;
-    }
-
-    function setAutor($autor) {
-        $this->autor = $autor;
-    }
-
-    function setTimestamp($timestamp) {
-        $this->timestamp = $timestamp;
-    }
+    
     
 }
+

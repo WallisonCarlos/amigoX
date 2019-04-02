@@ -10,16 +10,23 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
+    <link href="{{ asset('css/bootstrap-notifications.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
-<body>
+@if (Auth::check())
+   <body data-user-id="{{ Auth::user()->id }}">
+@else
+   <body>
+@endif
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
@@ -54,7 +61,15 @@
                                 <a class="dropdown-item" href="{{route('my-groups')}}">Meus Grupos</a>
                             @endif
                         </div>
-                      </li>
+                      </li><!--
+                      <li class="nav-item dropdown dropdown-notifications">
+                        <a href="#notifications-panel" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                          Nofificações (<span data-count="0" class="notif-count">0</span>)
+                        </a>
+
+                        <ul class="dropdown-menu">
+                        </ul>
+                    </li>-->
                     </ul>
                     @endauth
                     <!-- Right Side Of Navbar -->
@@ -97,5 +112,11 @@
             @yield('content')
         </main>
     </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+<script src="{{ asset('js/BsMultiSelect.min.js') }}"></script>
+<script>$("select").bsMultiSelect();</script>
+</body>
 </body>
 </html>

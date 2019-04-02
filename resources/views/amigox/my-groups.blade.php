@@ -37,7 +37,7 @@
                             <td><a href="{{route('groups.show', $group->id_group)}}" class="btn btn-primary">Ver</a></td>
                             @if ($group->administrator != $userAuth)
                             <td>
-                                <form action="{{route('requests.destroy', $group->id_group)}}" method="post">
+                                <form action="{{route('requests.out', $group->id_group)}}" method="post" onsubmit="return confirm('Tem certeza que deseja sair desse grupo?');">
                                   @csrf
                                   @method('DELETE')
                                   <button class="btn btn-danger" type="submit">Sair</button>

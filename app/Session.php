@@ -20,7 +20,7 @@ class Session extends Model
     }
     
     public static function members($session) {
-        $result = DB::select('select *, participants_session.id as id_participant from users '
+        $result = DB::select('select *, participants_session.id as id_participant, users.id as id_user from users '
                 . 'INNER JOIN 	participants_session ON users.id=participants_session.participant'
                 . ' WHERE participants_session.session=?', array($session));
         
@@ -47,10 +47,10 @@ class Session extends Model
     }
 
         public static function pair($session) {
-        $result = DB::select('select *, pairs.id as id_pair, pairs_session.id id_pairs from (users '
+        $result = DB::select('select *, pairs.id as id_pair, pairs_session.id as id_pairs from (users '
                 . 'INNER JOIN pairs ON users.id=pairs.to)'
                 . 'INNER JOIN pairs_session ON pairs_session.pair=pairs.id'
-                . ' WHERE pairs.from = ? AND pairs_session.session = ? LIMIT 1', array(Auth::user()->id, $session));
+                . ' WHERE pairs.from = ? AND pairs_session.session = ?', array(Auth::user()->id, $session));
         
         return $result;
     }
@@ -82,8 +82,16 @@ class Session extends Model
 
     public static function deleteParticipants($session) {
         return DB::delete("delete from participants_session where session={$session}");
-    }  
+    }
     
+    public static function deleteParticipant($user, $session) {
+        return DB::table('participants_session')
+                ->where('participant', '=', $user)
+                ->where('session','=', $session)
+                ->delete();
+    }
+
+
     public static function deletePairs($session) {
         foreach (self::pairs($session) as $pair) {
             DB::delete("delete from pairs where pairs.id={$pair->id_pair}");
@@ -97,7 +105,7 @@ class Session extends Model
         $members2 = self::members($session);
         $size = count($members2);
         $drawn = array();
-        if ($size > 1) {
+        if ($size > 2) {
             for ($i = 0;$i < $size;$i++) {
                 $rand = rand(0, $size-1);
                 while ($i == $rand OR in_array($rand, $drawn)) {
@@ -105,8 +113,8 @@ class Session extends Model
                 }
                 $drawn[] = $rand;
                 $pair = new \App\Pair();
-                $pair->from = $members[$i]->id;
-                $pair->to = $members2[$rand]->id;
+                $pair->from = $members[$i]->id_user;
+                $pair->to = $members2[$rand]->id_user;
                 $pair->save();
 
                 self::addPair($session, $pair->id);
