@@ -28,33 +28,30 @@ class Group extends Model
     }
     
     public static function getMyGroups(){
-        $result = DB::table('groups')
-            ->join('members_group', 'groups.id_group', '=', 'members_group.group')
-            ->join('users', 'users.id', '=', 'groups.administrator')
-            ->where('members_group.member', '=', Auth::user()->id)
-            ->get();
+        $result = DB::select('select *, groups.id as id_group from (groups inner join members_group on groups.id=members_group.group)'
+                . 'inner join users on users.id=groups.administrator where members_group.member=?', array(Auth::user()->id));
         return $result;
     }
     
     public static function getRequests() {
-        $results = DB::select('select * from '
-                . '(members_group INNER JOIN groups ON members_group.group=groups.id_group)'
+        $results = DB::select('select *, members_group.id as id_member, groups.id as id_group from '
+                . '(members_group INNER JOIN groups ON members_group.group=groups.id)'
                 . 'INNER JOIN users ON groups.administrator=users.id'
                 . ' where member = ? AND accept = ?', array(Auth::user()->id, false));
         return $results;
     }
     
     public static function acceptRequest($id) {
-        $result = DB::update('update members_group set accept = ? where member = ? AND id_member = ?', array(true, Auth::user()->id, $id));
+        $result = DB::update('update members_group set accept = ? where member = ? AND id=?', array(true, Auth::user()->id, $id));
         return $result;
     }
     
     public static function removeRequest($id) {
-        return DB::delete("delete from members_group where id_member={$id}");
+        return DB::delete("delete from members_group where id={$id}");
     }
     
     public static function members($group) {
-        $result = DB::select('select * from users '
+        $result = DB::select('select *, members_group.id as id_member from users '
                 . 'INNER JOIN members_group ON users.id=members_group.member'
                 . ' WHERE members_group.group=? AND members_group.accept=?', array($group, true));
         
@@ -62,8 +59,8 @@ class Group extends Model
     }
     
     public static function sessions($group) {
-        $result = DB::select('select *, sessions.session as title from (sessions '
-                . 'INNER JOIN secrets_friends_group ON sessions.id_session=secrets_friends_group.session)'
+        $result = DB::select('select *, sessions.session as title, sessions.id as id_session from (sessions '
+                . 'INNER JOIN secrets_friends_group ON sessions.id=secrets_friends_group.session)'
                 . ' WHERE secrets_friends_group.group=?', array($group));
         
         return $result;
@@ -71,18 +68,17 @@ class Group extends Model
     
     public static function noMembers($group) {
         $result = DB::select('select * from users '
-                . 'INNER JOIN members_group ON users.id!=members_group.member'
-                . ' WHERE members_group.group=? LIMIT 1', array($group));
+                . ' WHERE NOT EXISTS(select * from members_group where members_group.member=users.id AND members_group.group=?)', array($group));
         
         return $result;
     }
     
     public static function get($group) {
-        return DB::select('select * from groups where id_group=?',array($group));
+        return DB::select('select *, id as id_group from groups where id=?',array($group));
     }
     
     public static function accept($id) {
-        $result = DB::update('UPDATE members_group SET accept = ? WHERE member = ? AND id_member = ?', array(true, Auth::user()->id, $id));
+        $result = DB::update('UPDATE members_group SET accept = ? WHERE member = ? AND id = ?', array(true, Auth::user()->id, $id));
         return $result;
     }
 }

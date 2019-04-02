@@ -14,7 +14,7 @@ class CreateParticipantesSessaoTable extends Migration
     public function up()
     {
         Schema::create('participants_session', function (Blueprint $table) {
-            $table->bigIncrements('id_participant');
+            $table->bigIncrements('id');
             $table->bigInteger('participant');
             $table->bigInteger('session');
             $table->timestamps();

@@ -14,7 +14,7 @@ class CreateProdutosUsuarioTable extends Migration
     public function up()
     {
         Schema::create('products_user', function (Blueprint $table) {
-            $table->bigIncrements('id_products_user');
+            $table->bigIncrements('id');
             $table->bigInteger('product');
             $table->bigInteger('user');
             $table->timestamps();

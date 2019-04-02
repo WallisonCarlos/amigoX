@@ -14,7 +14,7 @@ class CreateAmigosSecretosGrupoTable extends Migration
     public function up()
     {
         Schema::create('secrets_friends_group', function (Blueprint $table) {
-            $table->bigIncrements('id_secret');
+            $table->bigIncrements('id');
             $table->bigInteger('session');
             $table->bigInteger('group');
         });

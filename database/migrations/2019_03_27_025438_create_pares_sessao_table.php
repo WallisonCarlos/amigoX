@@ -14,7 +14,7 @@ class CreateParesSessaoTable extends Migration
     public function up()
     {
         Schema::create('pairs_session', function (Blueprint $table) {
-            $table->bigIncrements('id_pair');
+            $table->bigIncrements('id');
             $table->bigInteger('pair');
             $table->bigInteger('session');
         });

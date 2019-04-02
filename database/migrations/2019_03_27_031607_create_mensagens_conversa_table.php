@@ -14,7 +14,7 @@ class CreateMensagensConversaTable extends Migration
     public function up()
     {
         Schema::create('messages_conversation', function (Blueprint $table) {
-            $table->bigIncrements('id_message_conversation');
+            $table->bigIncrements('id');
             $table->bigInteger('message');
             $table->bigInteger('conversation');
             $table->timestamps();

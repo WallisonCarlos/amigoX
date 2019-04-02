@@ -135,26 +135,22 @@ class GroupController extends Controller
             'title' => 'required|max:45'
         ]);
         
-        $g = Group::get($group);
-        
-        $group = new Group();
-        $group->id_group = $g[0]->id_group;
-        $group->administrator = $g[0]->administrator;              
+        $group = Group::find($group);            
         $group->title = $request->input('title');       
         
-        $group->update();
+        $group->save();
         
         $members = $request->input('members', []);
         //$members[] = Auth::user()->id;
         foreach ($members as $memberId) {
             if ($memberId == Auth::user()->id) {
-                \App\Group::addMember($group->id_group, $memberId, true);
+                \App\Group::addMember($group->id, $memberId, true);
             } else {
-                \App\Group::addMember($group->id_group, $memberId);
+                \App\Group::addMember($group->id, $memberId);
             }
         }
         
-        return redirect('groups/'.$group->id_group.'/edit')->with('success', 'Grupo atualizado com sucesso!');
+        return redirect('groups/'.$group->id.'/edit')->with('success', 'Grupo atualizado com sucesso!');
         
     }
 

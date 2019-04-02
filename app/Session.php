@@ -20,7 +20,7 @@ class Session extends Model
     }
     
     public static function members($session) {
-        $result = DB::select('select * from users '
+        $result = DB::select('select *, participants_session.id as id_participant from users '
                 . 'INNER JOIN 	participants_session ON users.id=participants_session.participant'
                 . ' WHERE participants_session.session=?', array($session));
         
@@ -28,16 +28,16 @@ class Session extends Model
     }
     
     public static function pair($session) {
-        $result = DB::select('select * from (users '
+        $result = DB::select('select *, pairs.id as id_pair, pairs_session.id id_pairs from (users '
                 . 'INNER JOIN pairs ON users.id=pairs.to)'
-                . 'INNER JOIN pairs_session ON pairs_session.pair=pairs.id_pair'
+                . 'INNER JOIN pairs_session ON pairs_session.pair=pairs.id'
                 . ' WHERE pairs.from = ? AND pairs_session.session = ? LIMIT 1', array(Auth::user()->id, $session));
         
         return $result;
     }
 
     public static function get($session) {
-        return DB::select('select * from sessions where id_session=?',array($session));
+        return DB::select('select *, sessions.id as id_session from sessions where id=?',array($session));
     }
     
     public static function addPair($session, $pair) {
@@ -49,7 +49,7 @@ class Session extends Model
 
     
     public static function drawn($session) {
-        return DB::update("UPDATE sessions SET drawn = ? WHERE id_session = ?", array(true, $session));
+        return DB::update("UPDATE sessions SET drawn = ? WHERE id = ?", array(true, $session));
     }
 
     

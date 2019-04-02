@@ -14,7 +14,7 @@ class CreateConversasTable extends Migration
     public function up()
     {
         Schema::create('conversations', function (Blueprint $table) {
-            $table->bigIncrements('id_conversation');
+            $table->bigIncrements('id');
             $table->bigInteger('user');
             $table->bigInteger('friend');
             $table->integer('timestamp');

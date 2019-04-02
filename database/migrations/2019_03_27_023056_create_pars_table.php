@@ -14,7 +14,7 @@ class CreateParsTable extends Migration
     public function up()
     {
         Schema::create('pairs', function (Blueprint $table) {
-            $table->bigIncrements('id_pair');
+            $table->bigIncrements('id');
             $table->bigInteger('from');
             $table->bigInteger('to');
             $table->timestamps();
