@@ -46,7 +46,7 @@
                       </li>
                       @if (Route::has('requests.index'))
                       <li class="nav-item">
-                        <a class="nav-link" href="{{route('requests.index')}}">Convites</a>
+                        <a class="nav-link" href="{{route('requests.index')}}">Convites ({{count(\App\Group::getRequests())}})</a>
                       </li>
                       @endif
                       <li class="nav-item dropdown">
