@@ -3,7 +3,11 @@
     <type>org.netbeans.modules.php.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
+<<<<<<< HEAD
             <name>laravel</name>
+=======
+            <name>amigoX</name>
+>>>>>>> 428c3aa7d8d0ab0db907a65ca47e780819a9f0a9
         </data>
     </configuration>
 </project>
